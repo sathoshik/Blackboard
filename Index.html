@@ -6,32 +6,27 @@
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
 </head>
 <body>
-<div id="main">
+<div id="mainWrapper">
   <canvas id="fingerCanvas" height="400px" width="600px"></canvas>
-  <button id="pause" onclick="togglePause()">Pause</button>
-  <input type="checkbox" id="pauseOnGesture" onclick="pauseForGestures()">Pause on
-  gesture</input>
-  <button type="button" id="save" onclick="saveCanvas()">Save</button>
-  <h3>Finger and tool data:</h3>
-  <div id="pointableData"></div>
-  <div style="clear:both;"></div>
-  <div id="drawing"></div>
+  <div class="wrapper">
+    <button id="pause" onclick="togglePause()">Pause</button>
+    <input type="checkbox" id="pauseOnGesture" onclick="pauseForGestures()">Pause ongesture</input>
+    <button type="button" id="save" onclick="saveCanvas()">Save</button>
+    <h3>Finger and tool data:</h3>
+    <div id="pointableData"></div>
+    <div style="clear:both;"></div>
+  </div>
 </div>
 
 
 <script>
-  // Store frame for motion functions
   var previousFrame = null;
   var paused = false;
   var pauseOnGesture = false;
   var c;
   var ctx;
 
-  // Setup Leap loop with frame callback function
   var controllerOptions = {enableGestures: true};
-
-  // to use HMD mode:
-  // controllerOptions.optimizeHMD = true;
 
   var lastX = 0;
   var lastY = 0;
@@ -63,8 +58,8 @@
         pointableString += "</div>";
 
 
-        var x = (pointable.tipPosition[0] + 300);
-        var y = 400 - pointable.tipPosition[1];
+        var x = (pointable.tipPosition[0] + c.offsetWidth / 2);
+        var y = c.offsetHeight - pointable.tipPosition[1];
 
         if (lastX != 0) {
           ctx.beginPath();
@@ -123,10 +118,10 @@
     var image = c.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
     window.location.href=image;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-
 </script>
-
 </body>
 </html>
