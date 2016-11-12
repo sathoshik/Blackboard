@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>FUCK YOUR SMARTBOARDS</title>
+  <title>!@#!@# YOUR SMARTBOARDS</title>
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
 </head>
 <body>
@@ -11,9 +11,11 @@
   <button id="pause" onclick="togglePause()">Pause</button>
   <input type="checkbox" id="pauseOnGesture" onclick="pauseForGestures()">Pause on
   gesture</input>
+  <button type="button" id="save" onclick="saveCanvas()">Save</button>
   <h3>Finger and tool data:</h3>
   <div id="pointableData"></div>
   <div style="clear:both;"></div>
+  <div id="drawing"></div>
 </div>
 
 
@@ -45,15 +47,13 @@
 
   Leap.loop(controllerOptions, function (frame) {
     if (paused) {
-      return; // Skip this update
+      return;
     }
-    // Display Pointable (finger and tool) object data
     var pointableOutput = document.getElementById("pointableData");
     var pointableString = "";
     if (frame.pointables.length > 0) {
 
       var i = 1;
-
 
       var pointable = frame.pointables[i];
 
@@ -80,17 +80,14 @@
 
         console.log("x " + (pointable.tipPosition[0].toFixed(1) + 300 ) + ", y " +
           pointable.tipPosition[1].toFixed(1))
-
-
       }
 
     }
     else {
       pointableString += "<div>No pointables</div>";
+      lastX = 0;
     }
     pointableOutput.innerHTML = pointableString;
-
-    // Store frame for motion functions
     previousFrame = frame;
 
   })
@@ -122,9 +119,14 @@
     }
   }
 
+  function saveCanvas() {
+    var image = c.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+    window.location.href=image;
+  }
+
 
 </script>
-
 
 </body>
 </html>
