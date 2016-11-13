@@ -118,7 +118,7 @@ a {
     button.href = dataURL;
   });
   function clearCanvas() {
-    socket.emit('clear', [])
+    socket.emit('clear', room);
   }
   function clearAllCanvas() {
     ctx.fillStyle = "#000000";

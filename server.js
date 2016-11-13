@@ -38,7 +38,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('clear', function(msg){
-    io.emit('clear', msg);
+    io.to(msg).emit('clear', msg);
   });
 
 });
