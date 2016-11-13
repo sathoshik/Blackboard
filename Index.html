@@ -5,6 +5,7 @@
   <title>!@#!@# YOUR SMARTBOARDS</title>
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
 <body>
@@ -52,9 +53,9 @@ a {
   var lastY = 0;
   var lastlastX = 0;
   var lastlastY = 0;
+  var socket = io();
 
-  $( document ).ready(function() {
-    var socket = io();
+  $(document).ready(function() {
 
     c = document.getElementById("c");
     c.height = window.innerHeight;
@@ -65,8 +66,9 @@ a {
     ctx.fillRect(0,0,c.width, c.height);
 
     socket.on('points', function(msg) {
-      var x = (pointable.tipPosition[0] + c.offsetWidth / 3)*1.5;
-      var y = (c.offsetHeight - pointable.tipPosition[1] - 110)*1.1;
+//      debugger
+      var x = (msg[0] + c.offsetWidth / 3)*1.5;
+      var y = (c.offsetHeight - msg[1] - 110)*1.1;
 
       if (lastX != 0) {
         ctx.beginPath();
@@ -81,7 +83,7 @@ a {
       lastlastX = lastX;
       lastlastY = lastY;
     });
-  };
+  });
 
   Leap.loop(controllerOptions, function (frame) {
     var pointableOutput = document.getElementById("pointableData");
