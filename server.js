@@ -30,7 +30,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('points', function(msg){
-    console.log('message: ' + msg);
+    // console.log('message: ' + msg);
     io.emit('points', msg);
   });
 
