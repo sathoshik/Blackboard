@@ -4,11 +4,19 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>!@#!@# YOUR SMARTBOARDS</title>
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
-<!-- <div id="mainWrapper">
+<canvas id="c" height="100%" width="100%"></canvas>
+<div id="mainWrapper">
   <button type="button" id="save" onclick="saveCanvas()">Save</button>
-</div> -->
+</div>
+<style>
+* {
+  padding: 0px;
+  margin: 0px;
+}
+</style>
 
 <script>
   var previousFrame = null;
@@ -23,8 +31,9 @@
   var lastlastY = 0;
 
   (function () {
-    c = document.createElement("CANVAS")
-    document.body.appendChild(c)
+    c = document.getElementById("c");
+    c.height = window.innerHeight;
+    c.width = window.innerWidth;
     ctx = c.getContext("2d");
 
   })();
@@ -62,7 +71,6 @@
       lastX = 0;
     }
     previousFrame = frame;
-
   })
 
   function saveCanvas() {
