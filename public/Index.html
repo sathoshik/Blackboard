@@ -54,10 +54,13 @@ a {
   var lastlastX = 0;
   var lastlastY = 0;
   var socket = io();
+  var room;
 
   $(document).ready(function() {
 
-    socket.emit("join room", window.location.search.split('=')[1]);
+    room = window.location.search.split('=')[1];
+
+    socket.emit("join room", room);
 
     c = document.getElementById("c");
     c.height = window.innerHeight;
@@ -98,7 +101,7 @@ a {
       var pointable = frame.pointables[i];
 
       if (pointable.extended) {
-        socket.emit('points', pointable.tipPosition);
+        socket.emit('points', [pointable.tipPosition,room]);
 
         console.log("x " + (pointable.tipPosition[0].toFixed(1) + 300 ) + ", y " + pointable.tipPosition[1].toFixed(1))
       }

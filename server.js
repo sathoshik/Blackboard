@@ -27,7 +27,6 @@ http.listen(3000, function(){
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('join room', function(room) {
-    console.log(room);
     socket.join(room);
   })
   socket.on('disconnect', function(){
@@ -35,9 +34,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('points', function(msg){
-    socket.broadcast.to(id).emit('points',msg);
-    // console.log('message: ' + msg);
-    // io.emit('points', msg);
+    io.to(msg[1]).emit('points',msg[0]);
   });
 
   socket.on('clear', function(msg){
