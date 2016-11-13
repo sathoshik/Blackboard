@@ -19,8 +19,8 @@ body {
 }
 
 .subtext-wrapper {
-  margin-top: -40px;
   display: inline-block;
+  margin-bottom: 10px;
 }
 
 .subtext-wrapper h4 {
@@ -29,6 +29,7 @@ body {
   font-size: 40px;
   font-weight: lighter;
   display: inline-block;
+  margin: 0;
 }
 
 .subtext-wrapper h4.Bold {
@@ -37,12 +38,13 @@ body {
 
 .Key-holder {
   width: 500px;
-  height: 40px;
-  line-height: 40px;
+  height: 34px;
+  line-height: 34px;
   background-color: #ffffff;
   padding-left: 10px;
   display: inline-block;
   font-family: 'Ubuntu', sans-serif;
+  font-size: 16px;
 }
 
 .button-wrapper {
