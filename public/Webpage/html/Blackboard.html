@@ -10,12 +10,12 @@
 
 <body>
 
-<div class="dynamic-wrapper" >
-  <div class="header-wrapper" >
+<div class="dynamic-wrapper">
+  <div class="header-wrapper">
     <h3>Blackboard</h3>
   </div>
 
-  <div class="subtext-wrapper" >
+  <div class="subtext-wrapper">
     <h4>A </h4>
     <h4 class="Bold">CLASSIC</h4>
     <h4>REINVENTED.</h4>
@@ -29,15 +29,19 @@
   </div>
 </div>
 
+<div class="footer-wrapper">
+  <div class="footer-text">HackPrinceton2016</div>
+</div>
+
 <script>
 
   $("#target").click(function () {
-    if( $("#boardName").val() != ""){
-    window.location.href = "index.html?session=" + $("#boardName").val();
+    if ($("#boardName").val() != "") {
+      window.location.href = "index.html?session=" + $("#boardName").val();
     }
     else {
       debugger
-      $("#boardName").css("border","1px solid #ff000000");
+      $("#boardName").css("border", "1px solid #ff000000");
     }
   });
 
