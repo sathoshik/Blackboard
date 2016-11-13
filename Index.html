@@ -6,23 +6,12 @@
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
 </head>
 <body>
-<div id="mainWrapper">
-  <canvas id="fingerCanvas" height="400px" width="600px"></canvas>
-  <div class="wrapper">
-    <button id="pause" onclick="togglePause()">Pause</button>
-    <input type="checkbox" id="pauseOnGesture" onclick="pauseForGestures()">Pause ongesture</input>
-    <button type="button" id="save" onclick="saveCanvas()">Save</button>
-    <h3>Finger and tool data:</h3>
-    <div id="pointableData"></div>
-    <div style="clear:both;"></div>
-  </div>
-</div>
-
+<!-- <div id="mainWrapper">
+  <button type="button" id="save" onclick="saveCanvas()">Save</button>
+</div> -->
 
 <script>
   var previousFrame = null;
-  var paused = false;
-  var pauseOnGesture = false;
   var c;
   var ctx;
 
@@ -34,16 +23,13 @@
   var lastlastY = 0;
 
   (function () {
-
-    c = document.getElementById("fingerCanvas");
+    c = document.createElement("CANVAS")
+    document.body.appendChild(c)
     ctx = c.getContext("2d");
 
   })();
 
   Leap.loop(controllerOptions, function (frame) {
-    if (paused) {
-      return;
-    }
     var pointableOutput = document.getElementById("pointableData");
     var pointableString = "";
     if (frame.pointables.length > 0) {
@@ -53,10 +39,6 @@
       var pointable = frame.pointables[i];
 
       if (pointable.extended) {
-        pointableString += "<div style='width:250px; float:left; padding:5px'>";
-        pointableString += "Tip position: " + vectorToString(pointable.tipPosition) + " mm<br />";
-        pointableString += "</div>";
-
 
         var x = (pointable.tipPosition[0] + c.offsetWidth / 2);
         var y = c.offsetHeight - pointable.tipPosition[1];
@@ -73,54 +55,20 @@
         lastlastX = lastX;
         lastlastY = lastY;
 
-        console.log("x " + (pointable.tipPosition[0].toFixed(1) + 300 ) + ", y " +
-          pointable.tipPosition[1].toFixed(1))
+        console.log("x " + (pointable.tipPosition[0].toFixed(1) + 300 ) + ", y " + pointable.tipPosition[1].toFixed(1))
       }
-
     }
     else {
-      pointableString += "<div>No pointables</div>";
       lastX = 0;
     }
-    pointableOutput.innerHTML = pointableString;
     previousFrame = frame;
 
   })
 
-  function vectorToString(vector, digits) {
-    if (typeof digits === "undefined") {
-      digits = 1;
-    }
-    return "(" + vector[0].toFixed(digits) + ", "
-      + vector[1].toFixed(digits) + ", "
-      + vector[2].toFixed(digits) + ")";
-  }
-
-  function togglePause() {
-    paused = !paused;
-
-    if (paused) {
-      document.getElementById("pause").innerText = "Resume";
-    } else {
-      document.getElementById("pause").innerText = "Pause";
-    }
-  }
-
-  function pauseForGestures() {
-    if (document.getElementById("pauseOnGesture").checked) {
-      pauseOnGesture = true;
-    } else {
-      pauseOnGesture = false;
-    }
-  }
-
   function saveCanvas() {
     var image = c.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
-    window.location.href=image;
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-  }
+    window.location.href=image;  }
 
 </script>
 </body>
