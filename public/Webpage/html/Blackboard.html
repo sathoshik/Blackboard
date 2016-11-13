@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="public/Webpage/styles/desktop.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <title>Blackboard</title>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+</head>
+
+<body>
+
+<div class="dynamic-wrapper" >
+  <div class="header-wrapper" >
+    <h3>Blackboard</h3>
+  </div>
+
+  <div class="subtext-wrapper" >
+    <h4>A </h4>
+    <h4 class="Bold">CLASSIC</h4>
+    <h4>REINVENTED.</h4>
+  </div>
+
+  <div class="key-wrapper">
+
+    <input type="text" class="Key-holder" placeholder="Board Name" id="boardName">
+
+    <div class="button-wrapper" id="target">Start</div>
+  </div>
+</div>
+
+<script>
+
+  $("#target").click(function () {
+    debugger;
+//    window.location.replace("localhost:3000/" + $("#boardName").val());
+    window.location.replace("public/index.html?session=" + $("#boardName").val());
+  });
+
+
+</script>
+
+</body>
+</html>

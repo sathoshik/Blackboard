@@ -13,10 +13,12 @@ app.use('/public', express.static('public'));
 
 app.get('/',function(req,res){
 
-  res.sendFile(path.join(__dirname+'/Index.html'));
-  //res.sendFile(path.join(__dirname+'/Webpage/html/Blackboard.html'));
+  // res.sendFile(path.join(__dirname+'/Index.html'));
+  res.sendFile(path.join(__dirname+'/public/Webpage/html/Blackboard.html'));
 
 });
+
+app.use( express.static('public'));
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
