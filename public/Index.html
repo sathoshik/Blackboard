@@ -141,6 +141,7 @@ a {
   var socket = io();
   var room;
   var strokeSize = 1;
+  var pointable;
 
   $(document).ready(function() {
 
@@ -188,7 +189,7 @@ a {
     if (frame.pointables.length > 0) {
       var i = 1; //Takes only one finger. Does not care which finger it takes.
 
-      var pointable = frame.pointables[i];
+       pointable = frame.pointables[i];
 
       if (pointable.extended) {
         socket.emit('points', [ctx.lineWidth,pointable.tipPosition,room,ctx.strokeStyle]);
