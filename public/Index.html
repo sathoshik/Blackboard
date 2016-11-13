@@ -142,7 +142,7 @@ a {
 
     socket.on('points', function(msg) {
       var x = (msg[1][0] + c.offsetWidth / 3)*1.5;
-      var y = (c.offsetHeight - msg[0][1] - 110)*1.1;
+      var y = (c.offsetHeight - msg[1][1] - 110)*1.1;
       ctx.lineWidth = msg[0].lineWidth
       ctx.fillStyle = msg[0].fillStyle
 
@@ -164,6 +164,7 @@ a {
   });
 
   Leap.loop(controllerOptions, function (frame) {
+
     var pointableOutput = document.getElementById("pointableData");
     var pointableString = "";
     if (frame.pointables.length > 0) {
