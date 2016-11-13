@@ -7,13 +7,16 @@
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
 <body>
-<button type="button" id="save" onclick="saveCanvas()">Save</button>
+<button type="button"><a href="#" id="save" download="my-file-name.png">Download</a></button>
+<button type="button" id="clear" onclick="clearCanvas()">Clear</button>
+
 <canvas id="c" height="100%" width="100%"></canvas>
 
 <style>
 * {
   padding: 0px;
   margin: 0px;
+  font-family: 'Ubuntu', sans-serif;
 }
 button {
   position: fixed;
@@ -24,7 +27,16 @@ button {
   border: none;
   color: white;
   font-size: 15px;
-  font-family: 'Ubuntu', sans-serif;
+}
+button:hover {
+  background-color: #a0a0a0;
+}
+#clear {
+  margin-left: 140px;
+}
+a {
+  text-decoration: none;
+  color: white;
 }
 </style>
 
@@ -46,6 +58,8 @@ button {
     c.width = window.innerWidth;
 
     ctx = c.getContext("2d");
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0,0,c.width, c.height);
   })();
 
   Leap.loop(controllerOptions, function (frame) {
@@ -65,7 +79,7 @@ button {
           ctx.beginPath();
           ctx.moveTo(lastX, lastY);
           ctx.quadraticCurveTo(lastlastX, lastlastY, x, y);
-          ctx.strokeStyle = '#000000';
+          ctx.strokeStyle = '#ffffff';
           ctx.stroke();
         }
 
@@ -83,10 +97,15 @@ button {
     previousFrame = frame;
   })
 
-  function saveCanvas() {
-    button = document.getElementById('save');
-    button.href = c.toDataURL();
-    button.download = "mypainting.png";
+  var button = document.getElementById('save');
+  button.addEventListener('click', function (e) {
+    var dataURL = c.toDataURL('image/png');
+    button.href = dataURL;
+    clearCanvas();
+  });
+  function clearCanvas() {
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0,0,c.width, c.height);
   }
 </script>
 </body>
