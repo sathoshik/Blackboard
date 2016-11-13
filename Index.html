@@ -4,58 +4,68 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>!@#!@# YOUR SMARTBOARDS</title>
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
 <body>
+<button type="button" id="save" onclick="saveCanvas()">Save</button>
 <canvas id="c" height="100%" width="100%"></canvas>
-<div id="mainWrapper">
-  <button type="button" id="save" onclick="saveCanvas()">Save</button>
-</div>
+
 <style>
 * {
   padding: 0px;
   margin: 0px;
 }
+button {
+  position: fixed;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 10px 24px;
+  background-color: #555555;
+  border: none;
+  color: white;
+  font-size: 15px;
+  font-family: 'Ubuntu', sans-serif;
+}
 </style>
 
 <script>
   var previousFrame = null;
-  var c;
-  var ctx;
-
   var controllerOptions = {enableGestures: true};
 
+  var c;
+  var ctx;
   var lastX = 0;
   var lastY = 0;
   var lastlastX = 0;
   var lastlastY = 0;
 
   (function () {
+    // Initilization function. Creates a canvas which takes up the whole window.
     c = document.getElementById("c");
     c.height = window.innerHeight;
     c.width = window.innerWidth;
-    ctx = c.getContext("2d");
 
+    ctx = c.getContext("2d");
   })();
 
   Leap.loop(controllerOptions, function (frame) {
+    //Loop controller.
     var pointableOutput = document.getElementById("pointableData");
     var pointableString = "";
     if (frame.pointables.length > 0) {
-
-      var i = 1;
+      var i = 1; //Takes only one finger. Does not care which finger it takes.
 
       var pointable = frame.pointables[i];
 
       if (pointable.extended) {
-
-        var x = (pointable.tipPosition[0] + c.offsetWidth / 2);
-        var y = c.offsetHeight - pointable.tipPosition[1];
+        var x = (pointable.tipPosition[0] + c.offsetWidth / 3)*1.5;
+        var y = (c.offsetHeight - pointable.tipPosition[1] - 110)*1.1;
 
         if (lastX != 0) {
           ctx.beginPath();
           ctx.moveTo(lastX, lastY);
           ctx.quadraticCurveTo(lastlastX, lastlastY, x, y);
+          ctx.strokeStyle = '#000000';
           ctx.stroke();
         }
 
@@ -74,10 +84,10 @@
   })
 
   function saveCanvas() {
-    var image = c.toDataURL("image/png").replace("image/png", "image/octet-stream");
-
-    window.location.href=image;  }
-
+    button = document.getElementById('save');
+    button.href = c.toDataURL();
+    button.download = "mypainting.png";
+  }
 </script>
 </body>
 </html>
