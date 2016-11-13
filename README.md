@@ -1,9 +1,11 @@
 # Blackboard
 
-This project utilizes the technology of Leap Motion to create amazing, unique drawings that capture the spontanous creativity within everyone. 
+This project utilizes the technology of Leap Motion to create amazing, unique drawings that capture the spontaneous creativity within everyone.
 
-## Tackling the Creative Community 
-Our team looked forward to designing a product for the arts community, since we thought there was a lack of VR/motion tracking in this field. The idea originally was focused on helping teachers upload their notes and achieve a "smartboard", however that did not seem feasable with the hardware we were given. 
+---
+
+## Tackling the Creative Community
+Our team looked forward to designing a product for the arts community, since we thought there was a lack of community driven motion tracking in this field. The idea originally was focused on helping teachers upload their notes and achieve a "smart board". However, after using the hardware and developing the tech to work with the leap motion, we quickly realized that this platform had more opportunities in an artistic format due to the freedom of movement and expression offered by being able to simply move your hand around to draw.
 
 ## Technical Aspects ##
-The application runs on the web and is written in node.js. It makes use of the express framework, and uses the javascript canvas in order to create the drawings. The application is hosted on an azure instance in the cloud. 
+The application runs on the web and is written in node.js which is augmented by socket.io and express. It draws arcs on a javascript canvas using coordinates from a leap motion. The application is hosted on an azure instance in the cloud.
