@@ -221,6 +221,7 @@ a {
     change: function() {
 
       ctx.strokeStyle = $('#chosenColor').val();
+      socket.emit('points', [ctx.lineWidth,pointable.tipPosition,room,ctx.strokeStyle]);
 
     },
     palette: [
@@ -243,6 +244,7 @@ a {
 
   function setStroke(x){
     ctx.lineWidth = x;
+    socket.emit('points', [ctx.lineWidth,pointable.tipPosition,room,ctx.strokeStyle]);
 
   }
   function myFunction() {
