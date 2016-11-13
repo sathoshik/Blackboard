@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 var router = require('./app/routes/router');
+var path = require('path');
 
 app.use(bodyParser.json());
 //app.use('/', router);
