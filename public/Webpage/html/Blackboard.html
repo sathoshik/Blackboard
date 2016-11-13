@@ -32,9 +32,13 @@
 <script>
 
   $("#target").click(function () {
-    debugger;
-//    window.location.replace("localhost:3000/" + $("#boardName").val());
-    window.location.replace("public/index.html?session=" + $("#boardName").val());
+    if( $("#boardName").val() != ""){
+    window.location.href = "index.html?session=" + $("#boardName").val();
+    }
+    else {
+      debugger
+      $("#boardName").css("border","1px solid #ff000000");
+    }
   });
 
 

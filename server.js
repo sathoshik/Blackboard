@@ -18,7 +18,7 @@ app.get('/',function(req,res){
 
 });
 
-app.use( express.static('public'));
+app.use(express.static('public'));
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
@@ -26,14 +26,17 @@ http.listen(3000, function(){
 
 io.on('connection', function(socket){
   console.log('a user connected');
-
+  socket.on('join room', function(room) {
+    socket.join(room);
+  })
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
 
   socket.on('points', function(msg){
+    socket.broadcast.to(id).emit('points',msg);
     // console.log('message: ' + msg);
-    io.emit('points', msg);
+    // io.emit('points', msg);
   });
 
   socket.on('clear', function(msg){
