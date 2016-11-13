@@ -4,6 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>!@#!@# YOUR SMARTBOARDS</title>
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
 <body>
@@ -41,6 +42,7 @@ a {
 </style>
 
 <script>
+
   var previousFrame = null;
   var controllerOptions = {enableGestures: true};
 
@@ -51,8 +53,9 @@ a {
   var lastlastX = 0;
   var lastlastY = 0;
 
-  (function () {
-    // Initilization function. Creates a canvas which takes up the whole window.
+  $( document ).ready(function() {
+    var socket = io();
+
     c = document.getElementById("c");
     c.height = window.innerHeight;
     c.width = window.innerWidth;
@@ -60,10 +63,27 @@ a {
     ctx = c.getContext("2d");
     ctx.fillStyle = "#000000";
     ctx.fillRect(0,0,c.width, c.height);
-  })();
+
+    socket.on('points', function(msg) {
+      var x = (pointable.tipPosition[0] + c.offsetWidth / 3)*1.5;
+      var y = (c.offsetHeight - pointable.tipPosition[1] - 110)*1.1;
+
+      if (lastX != 0) {
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.quadraticCurveTo(lastlastX, lastlastY, x, y);
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+      }
+
+      lastX = x;
+      lastY = y;
+      lastlastX = lastX;
+      lastlastY = lastY;
+    });
+  };
 
   Leap.loop(controllerOptions, function (frame) {
-    //Loop controller.
     var pointableOutput = document.getElementById("pointableData");
     var pointableString = "";
     if (frame.pointables.length > 0) {
@@ -72,21 +92,7 @@ a {
       var pointable = frame.pointables[i];
 
       if (pointable.extended) {
-        var x = (pointable.tipPosition[0] + c.offsetWidth / 3)*1.5;
-        var y = (c.offsetHeight - pointable.tipPosition[1] - 110)*1.1;
-
-        if (lastX != 0) {
-          ctx.beginPath();
-          ctx.moveTo(lastX, lastY);
-          ctx.quadraticCurveTo(lastlastX, lastlastY, x, y);
-          ctx.strokeStyle = '#ffffff';
-          ctx.stroke();
-        }
-
-        lastX = x;
-        lastY = y;
-        lastlastX = lastX;
-        lastlastY = lastY;
+        socket.emit('points', pointable.tipPosition);
 
         console.log("x " + (pointable.tipPosition[0].toFixed(1) + 300 ) + ", y " + pointable.tipPosition[1].toFixed(1))
       }
