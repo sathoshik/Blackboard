@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
 <body>
-<button type="button"><a href="#" id="save" download="my-file-name.png">Download</a></button>
+<button type="button"><a href="#" id="save" download="blackboard.png">Download</a></button>
 <button type="button" id="clear" onclick="clearCanvas()">Clear</button>
 <div class="dropdown">
   <button onclick="myFunction()" class="dropbtn">Stroke Size</button>
@@ -160,8 +160,7 @@ a {
 
     socket.on('points', function(msg) {
       var x = (msg[1][0] + c.offsetWidth / 3)*1.5;
-      var y = (c.offsetHeight - msg[1][1] - 110)*1.1;
-//      debugger
+      var y = (c.offsetHeight - msg[1][1] - c.offsetHeight/5)*1.1;
       ctx.lineWidth = msg[0]
       ctx.strokeStyle = msg[3]
 
@@ -195,9 +194,6 @@ a {
         socket.emit('points', [ctx.lineWidth,pointable.tipPosition,room,ctx.strokeStyle]);
       }
     }
-    else {
-//      lastX = 0;
-    }
     previousFrame = frame;
   })
 
@@ -224,18 +220,6 @@ a {
     maxSelectionSize: 10,
     preferredFormat: "hex",
     localStorageKey: "spectrum.demo",
-    move: function (color) {
-
-    },
-    show: function () {
-
-    },
-    beforeShow: function () {
-
-    },
-    hide: function () {
-
-    },
     change: function() {
 
       ctx.strokeStyle = $('#chosenColor').val();
