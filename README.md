@@ -2,6 +2,8 @@
 
 This project utilizes the technology of Leap Motion to create amazing, unique drawings that capture the spontaneous creativity within everyone.
 
+##### [Live Server](40.85.178.102)
+
 ---
 
 ![](img/splashImg.png)
