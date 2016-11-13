@@ -27,6 +27,7 @@ http.listen(3000, function(){
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('join room', function(room) {
+    console.log(room);
     socket.join(room);
   })
   socket.on('disconnect', function(){
