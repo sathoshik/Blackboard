@@ -141,8 +141,10 @@ a {
     ctx.strokeStyle = '#ffffff';
 
     socket.on('points', function(msg) {
-      var x = (msg[0] + c.offsetWidth / 3)*1.5;
-      var y = (c.offsetHeight - msg[1] - 110)*1.1;
+      var x = (msg[1][0] + c.offsetWidth / 3)*1.5;
+      var y = (c.offsetHeight - msg[0][1] - 110)*1.1;
+      ctx.lineWidth = msg[0].lineWidth
+      ctx.fillStyle = msg[0].fillStyle
 
       if (lastX != 0) {
         ctx.beginPath();
@@ -170,7 +172,7 @@ a {
       var pointable = frame.pointables[i];
 
       if (pointable.extended) {
-        socket.emit('points', [pointable.tipPosition,room]);
+        socket.emit('points', [ctx,pointable.tipPosition,room]);
       }
     }
     else {
