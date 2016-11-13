@@ -6,8 +6,16 @@ var bodyParser = require('body-parser');
 var router = require('./app/routes/router');
 
 app.use(bodyParser.json());
-app.use('/', router);
+//app.use('/', router);
 app.use('/public', express.static('public'));
+
+
+app.get('/',function(req,res){
+
+  res.sendFile(path.join(__dirname+'/Index.html'));
+  //res.sendFile(path.join(__dirname+'/Webpage/html/Blackboard.html'));
+
+});
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
@@ -15,7 +23,14 @@ http.listen(3000, function(){
 
 io.on('connection', function(socket){
   console.log('a user connected');
+
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
+
+  socket.on('points', function(msg){
+    console.log('message: ' + msg);
+    io.emit('points', msg);
+  });
+
 });
