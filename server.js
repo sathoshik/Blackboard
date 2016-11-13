@@ -34,4 +34,8 @@ io.on('connection', function(socket){
     io.emit('points', msg);
   });
 
+  socket.on('clear', function(msg){
+    io.emit('clear', msg);
+  });
+
 });
