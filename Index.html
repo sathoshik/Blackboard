@@ -2,129 +2,119 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>FUCK YOUR SMARTBOARDS</title>
+  <title>!@#!@# YOUR SMARTBOARDS</title>
   <script src="http://js.leapmotion.com/leap-0.6.3.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 </head>
 <body>
-<div id="main">
-  <canvas id="fingerCanvas" height="400px" width="600px"></canvas>
-  <button id="pause" onclick="togglePause()">Pause</button>
-  <input type="checkbox" id="pauseOnGesture" onclick="pauseForGestures()">Pause on
-  gesture</input>
-  <h3>Finger and tool data:</h3>
-  <div id="pointableData"></div>
-  <div style="clear:both;"></div>
-</div>
+<button type="button"><a href="#" id="save" download="my-file-name.png">Download</a></button>
+<button type="button" id="clear" onclick="clearCanvas()">Clear</button>
 
+<canvas id="c" height="100%" width="100%"></canvas>
+
+<style>
+* {
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Ubuntu', sans-serif;
+}
+button {
+  position: fixed;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 10px 24px;
+  background-color: #555555;
+  border: none;
+  color: white;
+  font-size: 15px;
+}
+button:hover {
+  background-color: #a0a0a0;
+}
+#clear {
+  margin-left: 140px;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+</style>
 
 <script>
-  // Store frame for motion functions
-  var previousFrame = null;
-  var paused = false;
-  var pauseOnGesture = false;
-  var c;
-  var ctx;
 
-  // Setup Leap loop with frame callback function
+  var previousFrame = null;
   var controllerOptions = {enableGestures: true};
 
-  // to use HMD mode:
-  // controllerOptions.optimizeHMD = true;
-
+  var c;
+  var ctx;
   var lastX = 0;
   var lastY = 0;
   var lastlastX = 0;
   var lastlastY = 0;
+  var socket = io();
 
-  (function () {
+  $(document).ready(function() {
 
-    c = document.getElementById("fingerCanvas");
+    c = document.getElementById("c");
+    c.height = window.innerHeight;
+    c.width = window.innerWidth;
+
     ctx = c.getContext("2d");
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0,0,c.width, c.height);
 
-  })();
+    socket.on('points', function(msg) {
+//      debugger
+      var x = (msg[0] + c.offsetWidth / 3)*1.5;
+      var y = (c.offsetHeight - msg[1] - 110)*1.1;
+
+      if (lastX != 0) {
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.quadraticCurveTo(lastlastX, lastlastY, x, y);
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+      }
+
+      lastX = x;
+      lastY = y;
+      lastlastX = lastX;
+      lastlastY = lastY;
+    });
+  });
 
   Leap.loop(controllerOptions, function (frame) {
-    if (paused) {
-      return; // Skip this update
-    }
-    // Display Pointable (finger and tool) object data
     var pointableOutput = document.getElementById("pointableData");
     var pointableString = "";
     if (frame.pointables.length > 0) {
-
-      var i = 1;
-
+      var i = 1; //Takes only one finger. Does not care which finger it takes.
 
       var pointable = frame.pointables[i];
 
       if (pointable.extended) {
-        pointableString += "<div style='width:250px; float:left; padding:5px'>";
-        pointableString += "Tip position: " + vectorToString(pointable.tipPosition) + " mm<br />";
-        pointableString += "</div>";
+        socket.emit('points', pointable.tipPosition);
 
-
-        var x = (pointable.tipPosition[0] + 300);
-        var y = 400 - pointable.tipPosition[1];
-
-        if (lastX != 0) {
-          ctx.beginPath();
-          ctx.moveTo(lastX, lastY);
-          ctx.quadraticCurveTo(lastlastX, lastlastY, x, y);
-          ctx.stroke();
-        }
-
-        lastX = x;
-        lastY = y;
-        lastlastX = lastX;
-        lastlastY = lastY;
-
-        console.log("x " + (pointable.tipPosition[0].toFixed(1) + 300 ) + ", y " +
-          pointable.tipPosition[1].toFixed(1))
-
-
+        console.log("x " + (pointable.tipPosition[0].toFixed(1) + 300 ) + ", y " + pointable.tipPosition[1].toFixed(1))
       }
-
     }
     else {
-      pointableString += "<div>No pointables</div>";
+      lastX = 0;
     }
-    pointableOutput.innerHTML = pointableString;
-
-    // Store frame for motion functions
     previousFrame = frame;
-
   })
 
-  function vectorToString(vector, digits) {
-    if (typeof digits === "undefined") {
-      digits = 1;
-    }
-    return "(" + vector[0].toFixed(digits) + ", "
-      + vector[1].toFixed(digits) + ", "
-      + vector[2].toFixed(digits) + ")";
+  var button = document.getElementById('save');
+  button.addEventListener('click', function (e) {
+    var dataURL = c.toDataURL('image/png');
+    button.href = dataURL;
+    clearCanvas();
+  });
+  function clearCanvas() {
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0,0,c.width, c.height);
   }
-
-  function togglePause() {
-    paused = !paused;
-
-    if (paused) {
-      document.getElementById("pause").innerText = "Resume";
-    } else {
-      document.getElementById("pause").innerText = "Pause";
-    }
-  }
-
-  function pauseForGestures() {
-    if (document.getElementById("pauseOnGesture").checked) {
-      pauseOnGesture = true;
-    } else {
-      pauseOnGesture = false;
-    }
-  }
-
-
 </script>
-
-
 </body>
 </html>
