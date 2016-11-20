@@ -20,4 +20,4 @@ The application runs on the web and is written in node.js which is augmented by 
 As this was completed in a short span of time, it is far from complete. A more polished version would include the ability for only certain people to draw/write while everyone else can only view the writing. Having the ability to make channels private with password protection is also one future feature.
 
 
-###### Developed at Hack Princeton &nbsp; <img src="img/hackPrincetonLogo.png" width="20">  
+###### [Developed at Hack Princeton](https://devpost.com/software/blackboard-op34d6) &nbsp; <img src="img/hackPrincetonLogo.png" width="20">  
